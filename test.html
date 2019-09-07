@@ -1,0 +1,159 @@
+<style>
+	
+	body{
+		background-image: url("ambient.png");
+		background-size: 100%;
+		/*background-position: 100%;*/
+	}
+	.frente{
+		width: 21;
+		height: 27;
+		overflow:hidden;
+		position: absolute;
+		top: 10;
+		left: 10;
+		/*transform: scale(1.5);*/
+	}
+
+
+
+	.frente img{
+		position: absolute;
+		top: -70;
+		left: -73;
+
+	}
+
+</style>
+
+<div id="boneco" class="frente">
+	<img id=imboneco src="link.png">
+</div>
+
+<script>
+
+	window.onclick=function(e){
+		x = e.clientX
+		y = e.clientY
+		console.log(x+"-"+y)
+
+		if(e.movementX > 0) imboneco.style.top = -36;
+		if(e.movementX < 0) imboneco.style.top = -100;
+
+		if(e.movementY < 0) imboneco.style.top = -133;
+		if(e.movementY > 0) imboneco.style.top = -70;
+
+		boneco.style.top = y-10
+		boneco.style.left = x-10
+
+		link.setPos(x-10,y-19)
+
+	}
+
+	boneco.style.left = 10
+	boneco.style.top = 10
+
+	d = 0.2
+	d2 = 0.5
+	press = 0
+	taxa = 60
+	num = 0
+	
+	teclas = {
+		up:false,
+		down:false,
+		left:false,
+		right:false
+	}
+
+
+	window.onkeydown=function(e){
+
+		num = 1
+
+		switch(e.key){
+			case "ArrowUp" : teclas.up = true; link.setDir(0) ; break;
+			case "ArrowDown" : teclas.down = true; link.setDir(1) ;break;
+			case "ArrowRight" : teclas.right = true; link.setDir(2) ;break;
+			case "ArrowLeft" : teclas.left = true; link.setDir(3) ;break;
+		}
+
+	}
+	setInterval(function(g){
+
+
+		taxa++
+
+		// if(taxa%1==0){
+
+			if(teclas.left) { link.setPos(link.pos.x-d,link.pos.y); fundo.setFundo(fundo.x+=d2,fundo.y);}
+			if(teclas.right){ link.setPos(link.pos.x+d,link.pos.y); fundo.setFundo(fundo.x-=d2,fundo.y); }
+			if(teclas.up) { link.setPos(link.pos.x,link.pos.y-d); fundo.setFundo(fundo.x,fundo.y+=d2); }
+			if(teclas.down) { link.setPos(link.pos.x,link.pos.y+d); fundo.setFundo(fundo.x,fundo.y-=d2); }
+
+		// }
+	},0)
+
+	window.onkeyup=function(e){
+
+		switch(e.key){
+			case "ArrowUp" : teclas.up = false; break;
+			case "ArrowDown" : teclas.down = false; break;
+			case "ArrowLeft" : teclas.left = false;  break;
+			case "ArrowRight" : teclas.right = false; break;
+		}
+
+
+	}
+
+				//animação
+
+				walk = []
+				for(i=0;i<12;i++){
+					walk.push(-2-(i*24))
+				}
+
+				a = 0
+				b = 0
+
+				setInterval(function(){
+					a++
+					if(a%10 == 0)
+						b++
+					imboneco.style.left = walk[b%walk.length]
+
+				},0)
+
+				//tenso
+
+				link = {
+
+					el:boneco,
+					//cima,baixo,direita,esquerda
+					cima:[-6,-69,-38,-100],
+
+					pos:{x:1,y:1},
+
+					setPos:function(x,y){
+						this.el.style.left = this.pos.x = x
+						this.el.style.top = this.pos.y = y
+					},
+
+					setDir:function(n){
+						imboneco.style.top = this.cima[n]
+					}
+				}
+
+				fundo = {
+					x:0,
+					y:0,
+					setFundo:function(x,y){
+						document.body.style.backgroundPosition = this.x+" "+this.y
+					}
+
+				}
+
+				link.setPos(328,270)
+
+
+			</script>
