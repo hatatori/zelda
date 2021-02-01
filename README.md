@@ -1,1 +1,1 @@
-# https://hatatori.github.io/zelda.github.io
+# https://hatatori.github.io/zelda
